@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  AWS_REGION: us-east-1                 
+  ECR_REPOSITORY: crudjs
+  ENV: "main"
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+
+
+
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{secreets.AWS_ACCES_KEY_ID}}
+          aws-secreet-acces-key: ${{secreets.AWS_SECREET_KEY}}
+          aws-session-token: ${{secreets.AWS_SESSION_TOKEN}}
+          aws-region: ${{secreets.AWS_REGION}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
