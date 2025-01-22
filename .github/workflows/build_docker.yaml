@@ -9,12 +9,8 @@ env:
   ENV: "main"
 
 jobs:
-  Deploy:
+  Build:
     runs-on: ubuntu-latest
-
-
-
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -35,6 +31,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: crudjs
           WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }}
