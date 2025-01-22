@@ -1,16 +1,18 @@
+name: Pull Dockerfile
+
 on:
   push:
     branches:
       - "main"
 
 env:
-  AWS_REGION: us-east-1                 
-  ECR_REPOSITORY: crudjs
+  AWS_REGION : "us-east-1"
   ENV: "main"
 
 jobs:
-  Build:
+  Deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -27,12 +29,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image to Amazon ECR
+
+      - name: Build Image And Push
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: crudjs
-          WORKER_IMAGE_TAG: worker-${{ env.ENV }}-latest
+          WORKER_IMAGE_TAG: app-${{ env.ENV }}-latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f Dockerfile ./worker
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
