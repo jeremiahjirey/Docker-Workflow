@@ -1,0 +1,45 @@
+name: CI/CD Test
+
+on:
+  push:
+    branches:
+      - main 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} 
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Create & Deploy EC2 Instance
+        id: ec2_create
+        run: |
+          INSTANCE_ID=$(aws ec2 run-instances --image-id ami-0df8c184d5f6ae949 --count 1 --instance-type t2.micro --key-name vockey --security-group-ids sg-0ee19c56761382e8b --subnet-id subnet-06cacf78a08819d78 --user-data .github/workflows/configrunner.sh  --query "Instances[0].InstanceId" --output text)
+          echo "INSTANCE_ID=$INSTANCE_ID" >> $GITHUB_ENV
+        
+      - name: Check EC2
+        run: |
+          aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+
+      - name: Get Public IP of EC2 Instance
+        id: ec2_ip
+        run: |
+          PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+          echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+
+      
+    
+  
+            
+  
+       
+      

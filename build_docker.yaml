@@ -6,17 +6,18 @@ on:
       - "main"
 
 env:
-  AWS_REGION : "us-east-1"
-  ENV: "main"
+  AWS_REGION : "us-east-1" #set env untuk push ke ECR
+  ENV: "main" #branch yang dipakai
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+        #confiurasi credential
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -32,6 +33,7 @@ jobs:
 
       - name: Build Image And Push
         id: build-image
+        #env untuk mempermudah proses build dan push
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: crudjs
@@ -39,3 +41,5 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG --build-arg aws_region=${{ env.AWS_REGION }} --build-arg copy_or_mount="copy" -f worker/Dockerfile ./worker
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$WORKER_IMAGE_TAG
+#$ECR_REGISTRY Variabel yang biasanya berisi alamat ECR
+#$ECR_REPOSITORY:$WORKER_IMAGE_TAG /sesuai dengan env yang dibuat
