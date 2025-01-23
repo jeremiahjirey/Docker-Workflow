@@ -4,8 +4,6 @@ cat <<EOF > configure-runner.sh
 #!/bin/bash -xe
 cd /home/ec2-user
 sudo yum update -y
-sudo yum install docker -y
-sudo yum install git -y
 sudo yum install dotnet-sdk-6.0 -y
 sudo yum install -y curl --allowerasing
 sudo yum install -y curl --skip-broken
