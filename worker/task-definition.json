@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:378741484408:task-definition/showipserver-td:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:378741484408:task-definition/serveri-task-def:1",
     "containerDefinitions": [
         {
             "name": "worker-showipserver",
@@ -23,7 +23,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/showipserver-td",
+                    "awslogs-group": "/ecs/serveri-task-def",
                     "mode": "non-blocking",
                     "awslogs-create-group": "true",
                     "max-buffer-size": "25m",
@@ -35,7 +35,7 @@
             "systemControls": []
         }
     ],
-    "family": "showipserver-td",
+    "family": "serveri-task-def",
     "taskRoleArn": "arn:aws:iam::378741484408:role/LabRole",
     "executionRoleArn": "arn:aws:iam::378741484408:role/LabRole",
     "networkMode": "awsvpc",
@@ -80,10 +80,10 @@
         "FARGATE"
     ],
     "requiresCompatibilities": [
-        "EC2"
+        "FARGATE"
     ],
     "cpu": "1024",
-    "memory": "3072",
+    "memory": "2048",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
