@@ -87,9 +87,5 @@
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
-    },
-    "registeredAt": "2025-01-24T01:49:20.590Z",
-    "registeredBy": "arn:aws:sts::378741484408:assumed-role/voclabs/user3758910=104991-11",
-    "enableFaultInjection": false,
-    "tags": []
+    }
 }
