@@ -4,10 +4,7 @@ on:
   push:
     branches:
       - "main"
-    paths:
-      - .github/workflows/deploy_ecs_wotkflow.yaml
-      - worker/**"
-
+    
 env: 
   AWS_REGION: us-east-1                 
   ECR_REPOSITORY: showipjs
