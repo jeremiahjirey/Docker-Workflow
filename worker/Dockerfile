@@ -1,6 +1,8 @@
 FROM node:latest
+RUN apt-get update && apt-get install -y git
 WORKDIR /app
-COPY . .
+RUN git clone https://github.com/dihkaw/showipserverwithnodejs.git .
+RUN ls -la /app
 RUN npm install
 EXPOSE 5000
-CMD [ "node", "index.js" ]
+CMD ["node", "index.js"]
