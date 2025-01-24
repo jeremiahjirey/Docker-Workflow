@@ -4,5 +4,6 @@ WORKDIR /app
 RUN git clone https://github.com/dihkaw/showipserverwithnodejs.git .
 RUN ls -la /app
 RUN npm install
+RUN npm install -g pm2
 EXPOSE 5000
-CMD ["node", "index.js"]
+CMD ["pm2-runtime", "index.js"]
