@@ -1,0 +1,20 @@
+{
+  "name": "showipserverwithnodejs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Wakhid Herri Nurcahyo",
+  "license": "ISC",
+  "description": "Script Node.js sederhana untuk menampilkan alamat IP server (lokal/private) beserta port yang digunakan.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dihkaw/showipserverwithnode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dihkaw/showipserverwithnode/issues"
+  },
+  "homepage": "https://github.com/dihkaw/showipserverwithnode#readme"
+}
